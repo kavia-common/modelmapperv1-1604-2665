@@ -17,7 +17,11 @@ export default function Navbar({ user, onSignIn, onSignOut, theme, onToggleTheme
         <button className="btn small" onClick={onToggleTheme} aria-label="Toggle theme">
           {theme === 'light' ? '🌙' : '☀️'}
         </button>
-        {bypass && <span className="badge">Bypass</span>}
+        {bypass && (
+          <span className="badge bypass" title="Authentication bypass enabled (Development Mode)">
+            AUTH BYPASS
+          </span>
+        )}
         {user ? (
           <>
             <span className="user">{user.name}</span>

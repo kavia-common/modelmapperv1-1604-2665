@@ -27,9 +27,10 @@ export function signIn() {
   if (BYPASS) {
     _user = {
       id: 'dev-user-1',
-      name: 'Dev User',
-      email: 'dev.user@example.com',
-      roles: ['designer', 'admin']
+      name: 'Test User (Mock)',
+      email: 'test.user@designstudio.local',
+      roles: ['designer', 'admin', 'tester'],
+      isMockUser: true
     };
     _token = 'mock-dev-token';
     return Promise.resolve(_user);

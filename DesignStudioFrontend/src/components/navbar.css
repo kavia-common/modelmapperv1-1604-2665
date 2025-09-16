@@ -43,3 +43,15 @@
   padding: 2px 6px;
   font-size: 12px;
 }
+
+.badge.bypass {
+  background: #ff9800;
+  color: #000;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}

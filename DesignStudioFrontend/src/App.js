@@ -53,10 +53,34 @@ function App() {
     setUser(null);
   };
 
+  // Show development warning when bypass is enabled
+  useEffect(() => {
+    if (isBypassMode()) {
+      console.warn(
+        '%cAuthentication Bypass Active',
+        'background: #ff9800; color: #000; padding: 2px 4px; border-radius: 2px; font-weight: bold;',
+        '\nRunning in development mode with mock authentication.',
+        '\nDo not use in production!'
+      );
+    }
+  }, []);
+
   return (
     <AppProvider>
       <BrowserRouter>
         <div className="App">
+          {isBypassMode() && (
+            <div style={{
+              background: '#ff9800',
+              color: '#000',
+              padding: '4px 8px',
+              textAlign: 'center',
+              fontSize: '14px',
+              fontWeight: 'bold'
+            }}>
+              Development Mode - Authentication Bypass Enabled
+            </div>
+          )}
         <Navbar 
           user={user}
           onSignIn={handleSignIn}
