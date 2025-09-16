@@ -99,7 +99,7 @@ function App() {
           />
           {isLoading ? (
             <LoadingFallback />
-          ) : user ? (
+          ) : (user || isBypassMode()) ? (
             <div className="app-container">
               <main className="main-content">
                 <Suspense fallback={<LoadingFallback />}>

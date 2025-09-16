@@ -4,8 +4,16 @@
 //
 const BYPASS = String(process.env.REACT_APP_BYPASS_AUTH).toLowerCase() === 'true';
 
-let _user = null;
-let _token = null;
+// Set initial mock user if in bypass mode
+let _user = BYPASS ? {
+  id: 'dev-user-1',
+  name: 'Test User (Mock)',
+  email: 'test.user@designstudio.local',
+  roles: ['designer', 'admin', 'tester'],
+  isMockUser: true
+} : null;
+
+let _token = BYPASS ? 'mock-dev-token' : null;
 
 // PUBLIC_INTERFACE
 export function isBypassMode() {
