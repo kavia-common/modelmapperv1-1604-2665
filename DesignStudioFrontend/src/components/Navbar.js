@@ -28,6 +28,12 @@ export default function Navbar({ user, onSignIn, onSignOut, theme, onToggleTheme
           Mappings
         </NavLink>
         <NavLink 
+          to="/mapper" 
+          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        >
+          Mapper
+        </NavLink>
+        <NavLink 
           to="/collaboration" 
           className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
         >

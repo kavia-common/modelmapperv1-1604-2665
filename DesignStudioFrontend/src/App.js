@@ -13,6 +13,7 @@ import RolesPage from './pages/RolesPage';
 import MappingsPage from './pages/MappingsPage';
 import CollaborationPage from './pages/CollaborationPage';
 import DevicePage from './pages/DevicePage';
+import MapperStudioPage from './pages/MapperStudioPage';
 import { getUser, handleRedirectCallback, isBypassMode, signIn, signOut } from './services/auth';
 import { worker } from './mocks/browser';
 
@@ -111,6 +112,7 @@ function App() {
                     <Route path="/mappings" element={<MappingsPage />} />
                     <Route path="/collaboration" element={<CollaborationPage />} />
                     <Route path="/device" element={<DevicePage />} />
+                    <Route path="/mapper" element={<MapperStudioPage />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </Suspense>

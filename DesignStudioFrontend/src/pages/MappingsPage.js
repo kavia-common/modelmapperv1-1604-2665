@@ -79,6 +79,7 @@ export default function MappingsPage() {
   return (
     <div className="container">
       <h2 className="title">Mappings</h2>
+      <p className="note">Looking for the graphical JSON→XML role mapper? Open the Mapper page from the navigation.</p>
 
       <div className="form">
         <div className="form-grid">

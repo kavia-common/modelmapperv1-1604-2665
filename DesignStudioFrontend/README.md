@@ -7,6 +7,7 @@ React-based frontend for the Design Studio application, providing a highly inter
 - **Service Modeling**: Drag-and-drop interface for modeling telco services
 - **Role Management**: Manage roles with dedicated sections
 - **Mapping**: Graphical mapping between service models and YANG models
+- **Mapper Studio**: Per-role JSON→XML visual mapper with drag-to-link, multi-XML support, device-YANG simulation, and jinja-style template preview/save
 - **Collaboration**: Real-time collaborative editing
 - **Device Integration**: Connect to devices for YANG model retrieval
 - **Authentication**: OAuth integration with bypass mode for development
