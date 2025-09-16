@@ -123,8 +123,9 @@ export default function RolesPage() {
       <div className={`list ${state.loading ? 'loading' : ''}`}>
         {Object.entries(
           // Group roles by section
-          state.roles.reduce((acc, role) => {
-            acc[role.section] = [...(acc[role.section] || []), role];
+          (Array.isArray(state.roles) ? state.roles : []).reduce((acc, role) => {
+            const section = role?.section || 'Uncategorized';
+            acc[section] = [...(acc[section] || []), role];
             return acc;
           }, {})
         ).map(([section, roles]) => (
@@ -141,7 +142,7 @@ export default function RolesPage() {
           </div>
         ))}
 
-        {!state.loading && state.roles.length === 0 && (
+        {!state.loading && (Array.isArray(state.roles) ? state.roles : []).length === 0 && (
           <p className="note text-center">No roles defined yet. Add your first role above.</p>
         )}
       </div>

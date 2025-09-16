@@ -18,6 +18,11 @@ const initialState = {
   }
 };
 
+function ensureArray(value) {
+  // Defensive helper to normalize arrays coming from API or elsewhere
+  return Array.isArray(value) ? value : (value ? [value] : []);
+}
+
 function reducer(state, action) {
   switch (action.type) {
     case 'SET_THEME':
@@ -27,13 +32,13 @@ function reducer(state, action) {
     case 'SET_ERROR':
       return { ...state, error: action.payload };
     case 'SET_MODELS':
-      return { ...state, models: action.payload };
+      return { ...state, models: ensureArray(action.payload) };
     case 'SET_ROLES':
-      return { ...state, roles: action.payload };
+      return { ...state, roles: ensureArray(action.payload) };
     case 'SET_MAPPINGS':
-      return { ...state, mappings: action.payload };
+      return { ...state, mappings: ensureArray(action.payload) };
     case 'SET_COLLABORATION':
-      return { ...state, collaboration: action.payload };
+      return { ...state, collaboration: action.payload || { activeUsers: 0, lastChangeId: 0 } };
     default:
       return state;
   }

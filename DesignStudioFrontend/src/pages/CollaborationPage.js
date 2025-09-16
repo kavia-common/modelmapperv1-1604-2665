@@ -43,7 +43,8 @@ export default function CollaborationPage() {
 
   // Track recent changes
   useEffect(() => {
-    if (state.models && state.collaboration?.lastChangeId) {
+    const modelsArr = Array.isArray(state.models) ? state.models : [];
+    if (state.collaboration?.lastChangeId) {
       setLocalState(prev => ({
         ...prev,
         changes: [
@@ -51,9 +52,9 @@ export default function CollaborationPage() {
             id: state.collaboration.lastChangeId,
             type: 'model_update',
             timestamp: new Date().toISOString(),
-            message: `Models updated (${state.models.length} total)`
+            message: `Models updated (${modelsArr.length} total)`
           },
-          ...prev.changes.slice(0, 9) // Keep last 10 changes
+          ...(Array.isArray(prev.changes) ? prev.changes : []).slice(0, 9) // Keep last 10 changes
         ]
       }));
     }
@@ -70,7 +71,7 @@ export default function CollaborationPage() {
         <div className="card">
           <h3>Active Users</h3>
           <div className="list">
-            {localState.users.map(user => (
+            {(Array.isArray(localState.users) ? localState.users : []).map(user => (
               <div key={user.id} className="list-item">
                 <span className={`status-dot ${user.active ? 'active' : ''}`} />
                 <span className="user-name">{user.name}</span>
@@ -84,7 +85,7 @@ export default function CollaborationPage() {
         <div className="card">
           <h3>Recent Changes</h3>
           <div className="list">
-            {localState.changes.map(change => (
+            {(Array.isArray(localState.changes) ? localState.changes : []).map(change => (
               <div key={change.id} className="list-item">
                 <div className="change-header">
                   <span className="change-type">{change.type}</span>

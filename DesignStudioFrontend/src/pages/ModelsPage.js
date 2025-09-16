@@ -64,7 +64,7 @@ export default function ModelsPage() {
         </button>
       </div>
       <div className={`list ${state.loading ? 'loading' : ''}`}>
-        {state.models.map(model => (
+        {(Array.isArray(state.models) ? state.models : []).map(model => (
           <div key={model.id} className="card mb-2">
             <div className="list-item">
               <Link to={`/models/${model.id}`} className="title">{model.name}</Link>
@@ -82,7 +82,7 @@ export default function ModelsPage() {
             </div>
           </div>
         ))}
-        {!state.loading && state.models.length === 0 && (
+        {!state.loading && (Array.isArray(state.models) ? state.models : []).length === 0 && (
           <p className="note text-center">No models yet. Create your first model above.</p>
         )}
       </div>

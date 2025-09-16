@@ -148,8 +148,9 @@ export default function MappingsPage() {
       <div className={`list ${state.loading ? 'loading' : ''}`}>
         {Object.entries(
           // Group mappings by type
-          state.mappings.reduce((acc, mapping) => {
-            acc[mapping.type] = [...(acc[mapping.type] || []), mapping];
+          (Array.isArray(state.mappings) ? state.mappings : []).reduce((acc, mapping) => {
+            const type = mapping?.type || 'other';
+            acc[type] = [...(acc[type] || []), mapping];
             return acc;
           }, {})
         ).map(([type, mappings]) => (
@@ -167,7 +168,7 @@ export default function MappingsPage() {
           </div>
         ))}
 
-        {!state.loading && state.mappings.length === 0 && (
+        {!state.loading && (Array.isArray(state.mappings) ? state.mappings : []).length === 0 && (
           <p className="note text-center">No mappings defined yet. Add your first mapping above.</p>
         )}
       </div>

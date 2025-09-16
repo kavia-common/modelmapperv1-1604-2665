@@ -15,19 +15,19 @@ export default function Dashboard() {
       <div className="grid">
         <Link className="card" to="/models">
           <h3>Service Models</h3>
-          <div className="badge">{state.models.length} models</div>
+          <div className="badge">{(Array.isArray(state.models) ? state.models : []).length} models</div>
           <p className="description">Create and manage service models</p>
         </Link>
         
         <Link className="card" to="/roles">
           <h3>Roles</h3>
-          <div className="badge">{state.roles.length} roles</div>
+          <div className="badge">{(Array.isArray(state.roles) ? state.roles : []).length} roles</div>
           <p className="description">Manage service roles and sections</p>
         </Link>
         
         <Link className="card" to="/mappings">
           <h3>Mappings</h3>
-          <div className="badge">{state.mappings.length} mappings</div>
+          <div className="badge">{(Array.isArray(state.mappings) ? state.mappings : []).length} mappings</div>
           <p className="description">Map services to YANG models</p>
         </Link>
         
