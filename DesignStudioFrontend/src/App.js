@@ -100,20 +100,22 @@ function App() {
           {isLoading ? (
             <LoadingFallback />
           ) : user ? (
-            <main className="main-content">
-              <Suspense fallback={<LoadingFallback />}>
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/models" element={<ModelsPage />} />
-                  <Route path="/models/:id" element={<ModelDetails />} />
-                  <Route path="/roles" element={<RolesPage />} />
-                  <Route path="/mappings" element={<MappingsPage />} />
-                  <Route path="/collaboration" element={<CollaborationPage />} />
-                  <Route path="/device" element={<DevicePage />} />
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-              </Suspense>
-            </main>
+            <div className="app-container">
+              <main className="main-content">
+                <Suspense fallback={<LoadingFallback />}>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/models" element={<ModelsPage />} />
+                    <Route path="/models/:id" element={<ModelDetails />} />
+                    <Route path="/roles" element={<RolesPage />} />
+                    <Route path="/mappings" element={<MappingsPage />} />
+                    <Route path="/collaboration" element={<CollaborationPage />} />
+                    <Route path="/device" element={<DevicePage />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </Suspense>
+              </main>
+            </div>
           ) : (
             <div className="container">
               <h2>Please sign in to continue</h2>
