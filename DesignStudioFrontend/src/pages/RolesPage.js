@@ -18,14 +18,15 @@ export default function RolesPage() {
   const [formData, setFormData] = useState({ name: '', section: '' });
   const [validation, setValidation] = useState({ valid: true, errors: {} });
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
 
   // Validate form
   const validateForm = (data) => {
     const errors = {};
-    if (roleValidator.name(data.name).valid === false) {
+    if (!roleValidator.name(data.name).valid) {
       errors.name = roleValidator.name(data.name).message;
     }
-    if (roleValidator.section(data.section).valid === false) {
+    if (!roleValidator.section(data.section).valid) {
       errors.section = roleValidator.section(data.section).message;
     }
     return {
@@ -51,12 +52,14 @@ export default function RolesPage() {
     }
 
     setBusy(true);
+    setError('');
     try {
       await api.createRole(formData);
       logger.info('Created new role', formData);
       setFormData({ name: '', section: '' });
       refreshRoles();
     } catch (e) {
+      setError(e.message || 'Failed to create role');
       logger.error('Failed to create role:', e);
     } finally {
       setBusy(false);
@@ -66,6 +69,8 @@ export default function RolesPage() {
   return (
     <div className="container">
       <h2 className="title">Roles</h2>
+      
+      {error && <div className="error">{error}</div>}
       
       <div className="form">
         <div className="form-grid">

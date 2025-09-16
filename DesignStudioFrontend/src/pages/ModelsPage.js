@@ -1,34 +1,43 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { logger } from '../services/logger';
 
 // PUBLIC_INTERFACE
 export default function ModelsPage() {
   const { state, api, refreshModels } = useApp();
   const [name, setName] = useState('');
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
 
   const add = async () => {
     if (!name.trim()) return;
     setBusy(true);
+    setError('');
     try {
       await api.createModel({ name });
+      logger.info('Created new model', { name });
       setName('');
       refreshModels();
     } catch (e) {
-      console.error('Failed to create model:', e);
+      setError(e.message || 'Failed to create model');
+      logger.error('Failed to create model:', e);
     } finally {
       setBusy(false);
     }
   };
 
   const remove = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this model?')) return;
     setBusy(true);
+    setError('');
     try {
       await api.deleteModel(id);
+      logger.info('Deleted model', { id });
       refreshModels();
     } catch (e) {
-      console.error('Failed to delete model:', e);
+      setError(e.message || 'Failed to delete model');
+      logger.error('Failed to delete model:', e);
     } finally {
       setBusy(false);
     }
@@ -37,18 +46,19 @@ export default function ModelsPage() {
   return (
     <div className="container">
       <h2 className="title">Service Models</h2>
-      {state.error && <div className="error">{state.error}</div>}
+      {error && <div className="error">{error}</div>}
       <div className="form-inline">
         <input 
           className="form-input"
           placeholder="New model name" 
           value={name} 
           onChange={(e) => setName(e.target.value)}
+          disabled={busy}
         />
         <button 
           className="btn primary" 
           onClick={add} 
-          disabled={busy || state.loading}
+          disabled={busy || !name.trim() || state.loading}
         >
           {busy ? <span className="spinner"></span> : 'Add Model'}
         </button>
@@ -64,7 +74,7 @@ export default function ModelsPage() {
                 <button 
                   className="btn small" 
                   onClick={() => remove(model.id)} 
-                  disabled={busy || state.loading}
+                  disabled={busy}
                 >
                   Delete
                 </button>
