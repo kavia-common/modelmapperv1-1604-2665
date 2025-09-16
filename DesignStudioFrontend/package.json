@@ -5,12 +5,17 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "^5.0.1"
+    "react-router-dom": "^6.26.2",
+    "react-scripts": "^5.0.1",
+    "uuid": "^9.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:mock": "cross-env REACT_APP_BYPASS_AUTH=true react-scripts start",
     "build": "react-scripts build",
+    "build:mock": "cross-env REACT_APP_BYPASS_AUTH=true react-scripts build",
     "test": "react-scripts test",
+    "test:mock": "cross-env REACT_APP_BYPASS_AUTH=true react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -29,6 +34,7 @@
     ]
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "msw": "^2.3.2"
   }
 }
