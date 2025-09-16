@@ -125,7 +125,14 @@ export class ApiClient {
 }
 
 export function createApiClient(getAccessToken) {
-  const bypassAuth = String(process.env.REACT_APP_BYPASS_AUTH).toLowerCase() === 'true';
+  // Align with auth.js dev-friendly default:
+  // If REACT_APP_BYPASS_AUTH is set, use it; otherwise default to true in non-production.
+  let bypassAuth;
+  if (typeof process.env.REACT_APP_BYPASS_AUTH !== 'undefined') {
+    bypassAuth = String(process.env.REACT_APP_BYPASS_AUTH).toLowerCase() === 'true';
+  } else {
+    bypassAuth = process.env.NODE_ENV !== 'production';
+  }
   const baseUrl = process.env.REACT_APP_API_BASE_URL || '';
   return new ApiClient({ bypassAuth, baseUrl, getAccessToken });
 }

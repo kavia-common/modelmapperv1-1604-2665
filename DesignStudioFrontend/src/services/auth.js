@@ -2,7 +2,19 @@
 // Auth service with bypass mode and placeholder OAuth wiring.
 // In bypass mode, we simulate a logged-in user and provide a fake token.
 //
-const BYPASS = String(process.env.REACT_APP_BYPASS_AUTH).toLowerCase() === 'true';
+
+// Determine bypass mode with a safe development default.
+// If REACT_APP_BYPASS_AUTH is explicitly set, honor it.
+// Otherwise, default to true for non-production environments so preview works without OAuth.
+function isDevDefaultBypass() {
+  const explicit = process.env.REACT_APP_BYPASS_AUTH;
+  if (typeof explicit !== 'undefined') {
+    return String(explicit).toLowerCase() === 'true';
+  }
+  return process.env.NODE_ENV !== 'production';
+}
+
+const BYPASS = isDevDefaultBypass();
 
 // Set initial mock user if in bypass mode
 let _user = BYPASS ? {
@@ -49,6 +61,23 @@ export function signIn() {
   const clientId = process.env.REACT_APP_OAUTH_CLIENT_ID;
   const redirectUri = process.env.REACT_APP_OAUTH_REDIRECT_URI;
   const scope = encodeURIComponent(process.env.REACT_APP_OAUTH_SCOPE || 'openid');
+
+  // If required OAuth env vars are missing, gracefully fallback to mock user to avoid blocking preview.
+  if (!authUrl || !clientId || !redirectUri) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      '[Auth] Missing OAuth environment variables; falling back to mock auth for preview.'
+    );
+    _user = {
+      id: 'dev-user-1',
+      name: 'Test User (Mock)',
+      email: 'test.user@designstudio.local',
+      roles: ['designer', 'admin', 'tester'],
+      isMockUser: true
+    };
+    _token = 'mock-dev-token';
+    return Promise.resolve(_user);
+  }
 
   const url = `${authUrl}?response_type=code&client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&state=dummy`;
   window.location.assign(url);
